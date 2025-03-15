@@ -1,0 +1,40 @@
+/* client/src/index.css */
+
+/* Basic CSS reset and global styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-family: 'Arial', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+input, button, select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin: 0.2rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background-color: #6200EE;
+  color: #fff;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+table {
+  margin-top: 1rem;
+}
+
+th, td {
+  padding: 0.5rem;
+}
