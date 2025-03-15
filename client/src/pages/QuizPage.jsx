@@ -1,4 +1,3 @@
-// client/src/pages/QuizPage.js
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import API from '../services/api';
@@ -211,42 +210,79 @@ const QuizPage = () => {
           }}>{currentQuestion.questionText}</p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {currentQuestion.options.map((option, idx) => {
-              let checked = false;
-              const userAnswer = selectedAnswers[currentQuestionIndex];
-              if (currentQuestion.questionType === 'multiple') {
-                checked = Array.isArray(userAnswer) && userAnswer.includes(idx);
-              } else {
-                checked = userAnswer === idx;
-              }
+            {currentQuestion.questionType === 'truefalse' ? (
+              // True/False options
+              ['True', 'False'].map((option, idx) => {
+                const checked = selectedAnswers[currentQuestionIndex] === idx;
+                return (
+                  <label 
+                    key={idx}
+                    style={{ 
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '1rem',
+                      background: checked ? '#e3f2fd' : '#fff',
+                      border: `2px solid ${checked ? '#2196F3' : '#e0e0e0'}`,
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      ':hover': {
+                        background: '#f5f5f5'
+                      }
+                    }}
+                  >
+                    <input
+                      type="radio"
+                      checked={checked}
+                      onChange={() => handleOptionChange(idx)}
+                      style={{ marginRight: '1rem' }}
+                    />
+                    <span style={{ 
+                      color: '#333',
+                      fontWeight: '500'
+                    }}>{option}</span>
+                  </label>
+                );
+              })
+            ) : (
+              // Multiple choice or single choice options
+              currentQuestion.options.map((option, idx) => {
+                let checked = false;
+                const userAnswer = selectedAnswers[currentQuestionIndex];
+                if (currentQuestion.questionType === 'multiple') {
+                  checked = Array.isArray(userAnswer) && userAnswer.includes(idx);
+                } else {
+                  checked = userAnswer === idx;
+                }
 
-              return (
-                <label 
-                  key={idx}
-                  style={{ 
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '1rem',
-                    background: checked ? '#e3f2fd' : '#fff',
-                    border: `2px solid ${checked ? '#2196F3' : '#e0e0e0'}`,
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    ':hover': {
-                      background: '#f5f5f5'
-                    }
-                  }}
-                >
-                  <input
-                    type={currentQuestion.questionType === 'multiple' ? 'checkbox' : 'radio'}
-                    checked={checked}
-                    onChange={() => handleOptionChange(idx)}
-                    style={{ marginRight: '1rem' }}
-                  />
-                  <span style={{ color: '#333' }}>{option}</span>
-                </label>
-              );
-            })}
+                return (
+                  <label 
+                    key={idx}
+                    style={{ 
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '1rem',
+                      background: checked ? '#e3f2fd' : '#fff',
+                      border: `2px solid ${checked ? '#2196F3' : '#e0e0e0'}`,
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      ':hover': {
+                        background: '#f5f5f5'
+                      }
+                    }}
+                  >
+                    <input
+                      type={currentQuestion.questionType === 'multiple' ? 'checkbox' : 'radio'}
+                      checked={checked}
+                      onChange={() => handleOptionChange(idx)}
+                      style={{ marginRight: '1rem' }}
+                    />
+                    <span style={{ color: '#333' }}>{option}</span>
+                  </label>
+                );
+              })
+            )}
           </div>
         </div>
 
